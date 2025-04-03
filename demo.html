@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature-Themed Carbon Footprint Estimator</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            /* background-color: #e3f6f2; */
+            overflow-x: hidden;
+            color: hsl(122, 70%, 46%);
+            line-height: 1.6;
+            font-size: 16px;
+            background: url('https://www.w3schools.com/w3images/forest.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 2s ease-out;
+        }
+
+        header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: hsl(99, 100%, 55%);
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        .result h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 14px;
+            color: #777;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        .nature-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.w3schools.com/w3images/forest.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(-50px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="nature-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Carbon Footprint Estimator</h1>
+            <p>Track your environmental impact and make a change</p>
+        </header>
+
+        <form id="carbonForm">
+            <div class="form-group">
+                <label for="travel">Annual Travel (in km):</label>
+                <input type="number" id="travel" placeholder="Enter your annual travel in kilometers" required>
+            </div>
+
+            <div class="form-group">
+                <label for="energy">Annual Calories (in cal):</label>
+                <input type="number" id="energy" placeholder="Enter your annual energy consumption" required>
+            </div>
+
+            <div class="form-group">
+                <label for="waste">Annual Waste Generation (in km):</label>
+                <input type="number" id="waste" placeholder="Enter your annual waste generation" required>
+            </div>
+
+            <button type="button" class="btn" onclick="calculateCarbonFootprint()">Calculate Footprint</button>
+        </form>
+
+        <div class="result" id="result">
+            <h3>Your Carbon Footprint:</h3>
+            <p id="footprintResult">Calculating...</p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Carbon Footprint Estimator | Embrace a greener future</p>
+        </div>
+    </div>
+
+    <script>
+        function calculateCarbonFootprint() {
+            const travel = parseFloat(document.getElementById('travel').value);
+            const energy = parseFloat(document.getElementById('energy').value);
+            const waste = parseFloat(document.getElementById('waste').value);
+                if (isNaN(travel) || isNaN(energy) || isNaN(waste)) {
+                alert('Please fill out all fields with valid numbers.');
+                return;
+            }
+    
+            const carbonPerKm = 0.21; 
+            const carbonPerKWh = 0.233; 
+            const carbonPerKgWaste = 0.03; 
+    
+            const footprint = (travel * carbonPerKm) + (energy * carbonPerKWh) + (waste * carbonPerKgWaste);
+    
+            if (footprint === 0) {
+                alert("It seems that the values are too small to calculate a meaningful footprint.");
+                return;
+            }
+                document.getElementById('footprintResult').innerHTML = `Your estimated carbon footprint is: <strong>${footprint.toFixed(2)} kg CO2</strong>`;
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.style.opacity = 1;
+        }
+    </script>
+    
